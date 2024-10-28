@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Обновить пользователя</title>
+</head>
+<body>
+<div>
+    <h2>Обновить пользователя</h2>
+    <form th:method="PATCH" th:action="@{/admin/update}" th:object="${user}">
+        <div>
+            <label for="firstName">Имя</label>
+            <input type="text" th:field="*{firstName}" id="firstName">
+        </div>
+        <div>
+            <label for="lastName">Фамилия</label>
+            <input type="text" th:field="*{lastName}" id="lastName">
+        </div>
+        <div>
+            <label for="id">ID</label>
+            <input type="text" th:field="*{id}" id="id">
+        </div>
+        <div>
+            <label for="password">Пароль</label>
+            <input type="password" th:field="*{password}" id="password">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" th:field="*{email}" id="email">
+        </div>
+        <div>
+            <label for="age">Возраст</label>
+            <input type="text" th:field="*{age}" id="age">
+        </div>
+        <div>
+            <label>Роли: </label>
+            <div>
+                <th:block th:each="role: ${listRoles}">
+                    <input type="checkbox" th:field="*{roles}"
+                           th:text="${role.getRoleName()}" th:value="${role.getId()}"/>
+                </th:block>
+            </div>
+        </div>
+        <div>
+            <button type="submit">Обновить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin page!</title>
+</head>
+<body>
+<div>
+    <div>
+        <h2>Панель администратора</h2>
+        <div>
+            <a th:href="@{/user}" th:text="'Профиль ' + ${user.getFirstName()} + ' ' + ${user.getLastName()}"></a>
+            <a href="/logout"><button>Выход</button></a>
+        </div>
+    </div>
+    <div th:switch="users">
+        <h2 th:case="null" >Нет пользователей</h2>
+        <div th:case="*">
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Возраст</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Роли</th>
+                    <th scope="col" style="width: 20%;">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${users}">
+                    <td th:text="${user.getId()}" style="width: 10%;"></td>
+                    <td th:text="${user.getFirstName()}" style="width: 15%;"></td>
+                    <td th:text="${user.getLastName()}" style="width: 15%;"></td>
+                    <td th:text="${user.getAge()}" style="width: 10%;"></td>
+                    <td th:text="${user.getEmail()}" style="width: 20%;"></td>
+                    <td style="width: 20%;">
+                        <div class="role-container">
+                            <span th:each="role : ${user.getRoles()}" class="role-item">
+                                <b th:text="${role.getRoleName()}"></b>
+                            </span>
+                        </div>
+                    </td>
+                    <td style="width: 20%;">
+                        <div>
+                            <a th:href="@{admin/{id}/update (id = ${user.getId()})}"><button type="button">Обновить</button></a>
+                            <form th:method="DELETE" th:action="@{admin/{id}/delete (id=${user.getId()})}">
+                                <input type="submit" value="Удалить">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <hr/>
+                </tbody>
+            </table>
+            <div>
+                <a href="/admin/create"><button type="button">Добaвить нового пользователя</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
